@@ -3,4 +3,4 @@ project(project)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(project main.cpp)
+add_executable(project main.cpp Algorithm.cpp Algorithm.h SJF.cpp SJF.h SRT.cpp SRT.h RR.cpp RR.h)
