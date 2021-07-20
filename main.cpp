@@ -7,7 +7,9 @@
 #include "SJF.h"
 #include "SRT.h"
 
-int main() {
+
+int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
+
