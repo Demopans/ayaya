@@ -7,6 +7,7 @@
 
 
 #include "Algorithm.h"
+#include "Event.h"
 
 class SJF : private Algorithm{
 

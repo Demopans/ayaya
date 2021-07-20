@@ -5,6 +5,7 @@
 #ifndef PROJECT_ALGORITHM_H
 #define PROJECT_ALGORITHM_H
 
+#include "Event.h"
 
 class Algorithm {
 
