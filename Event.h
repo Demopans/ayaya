@@ -8,6 +8,8 @@
 #include "Event.h"
 
 class Event {
+    char id;
+    double runningTime;
 
 };
 
