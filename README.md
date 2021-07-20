@@ -1,3 +1,3 @@
 # ayaya
 
-![Alt Text](https://i.imgur.com/gallery/Yo1DFy8.gif)
+![Alt Text](https://i.imgur.com/wgchRw8.mp4)
