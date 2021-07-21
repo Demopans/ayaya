@@ -3,3 +3,7 @@
 //
 
 #include "SJF.h"
+
+bool eventComparator(Event a, Event b) {
+    return false;
+}

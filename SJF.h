@@ -5,12 +5,15 @@
 #ifndef PROJECT_SJF_H
 #define PROJECT_SJF_H
 
-
+#include <algorithm>
+#include <queue>
 #include "Algorithm.h"
 #include "Event.h"
 
-class SJF : private Algorithm{
+bool eventComparator(Event a, Event b);
 
+class SJF : private Algorithm{
+    std::priority_queue<Event> queue;
 };
 
 
