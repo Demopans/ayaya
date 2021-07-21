@@ -15,7 +15,8 @@ typedef enum {
     NO_BURST, IO_BURST, CPU_BURST, CX_ON, CX_OFF
 } burstType;
 
-public class Event {
+class Event {
+public:
     char id;
     int t_arrive;
     int num_cpu_burst;
