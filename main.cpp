@@ -1,3 +1,10 @@
+/**
+ * Special colorful (if you are using and IDE) Comments for the Betterment of Society and Paul's Ass
+ *
+ *
+ */
+
+
 #include <iostream>
 #include <algorithm>
 
