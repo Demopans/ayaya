@@ -6,12 +6,13 @@
 #include "RR.h"
 #include "SJF.h"
 #include "SRT.h"
-
+#include "Rand48.h"
 
 int main(int argc, char *argv[]) {
     if (argc!=8){// errot handling
         std::string errr = argc < 7 ? "not enough input arguments.\n" : "too many input arguments.\n";
         std::cerr << errr;
+        return EXIT_FAILURE;
     }
     /*  first input argument is the seed for random number generator
         use srand48() before each scheduling algorithm
