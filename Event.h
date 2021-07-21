@@ -32,6 +32,7 @@ public class Event {
     int WT;
     process_state state;
     Event() = default;
+    int x;
 };
 
 
