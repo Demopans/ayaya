@@ -21,7 +21,7 @@ public:
     int t_arrive;
     int num_cpu_burst;
     int counter_cpu_burst;
-    burst_type current_burst_type;
+    burstType current_burst_type;
     int current_burst_start;
     int current_burst_start_overall;
     int queue_entry_time;
@@ -31,7 +31,7 @@ public:
     int next_tau;  //SRT need it to calculate tau
     int TAT;
     int WT;
-    process_state state;
+    processState state;
     Event() = default;
     int x;
 };
