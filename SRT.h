@@ -5,11 +5,19 @@
 #ifndef PROJECT_SRT_H
 #define PROJECT_SRT_H
 
-
+#include <algorithm>
+#include <queue>
 #include "Algorithm.h"
+#include "Process.h"
+
+bool compare(Process a, Process b);
+struct com{
+    bool operator()(Process a, Process b){return compare(a,b);}
+};
+
 
 class SRT : private Algorithm{
-
+    std::priority_queue<Process,std::vector<Process>,com> queue;
 };
 
 

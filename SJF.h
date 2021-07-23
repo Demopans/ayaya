@@ -8,11 +8,16 @@
 #include <algorithm>
 #include <queue>
 #include "Algorithm.h"
+#include "Process.h"
 
-bool eventComparator(Event a, Event b);
+bool eventComparator(Process a, Process b);
+struct com{
+    bool operator()(Process a, Process b){return eventComparator(a,b);}
+};
 
 class SJF : private Algorithm{
-    std::priority_queue<Event> queue;
+    std::priority_queue<Process,std::vector<Process>,com> queue;
+
 };
 
 

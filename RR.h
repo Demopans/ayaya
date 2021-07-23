@@ -5,8 +5,8 @@
 #ifndef PROJECT_RR_H
 #define PROJECT_RR_H
 
-
 #include "Algorithm.h"
+#include "queue"
 
 class RR : private Algorithm{
 

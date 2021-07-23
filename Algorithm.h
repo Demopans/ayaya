@@ -8,6 +8,13 @@
 #include <algorithm>
 
 class Algorithm {
+public:
+
+private:
+    int ctContextSwitch;
+    int ctPreemptions;
+    int CPUBurstTimes;
+
 
 };
 
