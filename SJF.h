@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <queue>
 #include "Algorithm.h"
-#include "Event.h"
 
 bool eventComparator(Event a, Event b);
 

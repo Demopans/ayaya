@@ -8,8 +8,8 @@
 #include <iostream>
 #include <algorithm>
 
-#include "Event.h"
 #include "Algorithm.h"
+#include "Process.h"
 #include "RR.h"
 #include "SJF.h"
 #include "SRT.h"
