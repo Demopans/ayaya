@@ -11,3 +11,11 @@ bool eventComparator(Process a, Process b) {
     }
     return a.get_cup_burst_time() op b.get_cup_burst_time();
 }
+
+void SJF::oneRound() {
+
+}
+
+void SJF::pushToQueue(Process &p) {
+    this->queue.push(p);
+}

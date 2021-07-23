@@ -9,6 +9,7 @@
 #include <queue>
 #include "Algorithm.h"
 #include "Process.h"
+#include "CPU.h"
 
 bool eventComparator(Process a, Process b);
 struct com{
@@ -16,7 +17,12 @@ struct com{
 };
 
 class SJF : private Algorithm{
+private:
     std::priority_queue<Process,std::vector<Process>,com> queue;
+
+public:
+    void oneRound();
+    void pushToQueue(Process &p);
 
 };
 

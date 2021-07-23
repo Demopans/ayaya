@@ -3,3 +3,9 @@
 //
 
 #include "CPU.h"
+
+Process *CPU::kickProcess(Process &p) {
+    Process *oldP = &this->CurrentProcess;
+    this->CurrentProcess = p;// can be nullptr
+    return oldP;
+}

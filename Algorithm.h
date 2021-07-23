@@ -6,15 +6,19 @@
 #define PROJECT_ALGORITHM_H
 
 #include <algorithm>
+#include "Process.h"
+#include "CPU.h"
+#include <queue>
 
 class Algorithm {
 public:
 
 private:
-    int ctContextSwitch;
-    int ctPreemptions;
-    int CPUBurstTimes;
-
+    static int ctContextSwitch;
+    static int ctPreemptions;
+    static int CPUBurstTimes;
+    static std::queue<Process> incomingProcesses;
+    CPU cpu;
 
 };
 
