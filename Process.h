@@ -22,6 +22,7 @@ class Process {
         int io_burst_time;
         int arrival_time;
         int num_cpu_bursts;
+        int state; // running: 2, ready: 1, waiting: 0
 };
 
 

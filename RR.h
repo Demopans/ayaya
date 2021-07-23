@@ -9,7 +9,10 @@
 #include "queue"
 
 class RR : private Algorithm{
+public:
 
+private:
+    std::queue<Process> queue;
 };
 
 
