@@ -33,7 +33,6 @@ public:
     int WT;
     processState state;
     Event() = default;
-    int x;
 };
 
 
