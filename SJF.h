@@ -11,15 +11,18 @@
 #include "Process.h"
 #include "CPU.h"
 
-bool eventComparator(Process a, Process b);
-struct com{
-    bool operator()(Process a, Process b){return eventComparator(a,b);}
-};
+
+
 /*
  * Singleton would be a good idea, bur no time for that
  */
 class SJF : private Algorithm{
 private:
+    static bool eventComparator(Process a, Process b);
+    struct com{
+        bool operator()(Process a, Process b){return eventComparator(a,b);}
+    };
+
     std::priority_queue<Process,std::vector<Process>,com> queue;
     CPU core = CPU();
 public:

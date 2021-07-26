@@ -5,7 +5,7 @@
 #include "SJF.h"
 #define op >
 
-bool eventComparator(Process a, Process b) {
+bool SJF::eventComparator(Process a, Process b) {
     if (a.get_cup_burst_time() == b.get_cup_burst_time()){
         return a.get_arrival_time() op b.get_arrival_time();
     }

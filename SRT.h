@@ -10,13 +10,16 @@
 #include "Algorithm.h"
 #include "Process.h"
 
-bool compare(Process a, Process b);
-struct com{
-    bool operator()(Process a, Process b){return compare(a,b);}
-};
+
+
 
 
 class SRT : private Algorithm{
+private:
+    static bool compare(Process a, Process b);
+    struct com{
+        bool operator()(Process a, Process b){return compare(a,b);}
+    };
     std::priority_queue<Process,std::vector<Process>,com> queue;
 };
 

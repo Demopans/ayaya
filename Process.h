@@ -8,8 +8,12 @@
 class Process {
 public:
     Process() = default;
-    Process(char id, int cpu_burst, int io_burst, int arrival, int num_bursts);
 
+    Process(char id, int cpuBurstTime, int ioBurstTime, int arrivalTime, int numCpuBursts, int state) :
+            id(id),cpu_burst_time(cpuBurstTime),io_burst_time(ioBurstTime),
+            arrival_time(arrivalTime),num_cpu_bursts(numCpuBursts),state(state) {}
+
+    explicit Process(char id) : id(id) {}
 
     void change_cpu_burst(int new_time) {cpu_burst_time = new_time; }
     void change_io_burst(int new_time) { io_burst_time = new_time; }
@@ -21,11 +25,11 @@ public:
 
 private:
     char id;
-    int cpu_burst_time;
-    int io_burst_time;
-    int arrival_time;
-    int num_cpu_bursts;
-    int state; // running: 2, ready: 1, waiting: 0
+    int cpu_burst_time = -1;
+    int io_burst_time = -1;
+    int arrival_time = -1;
+    int num_cpu_bursts = -1;
+    int state = -1; // running: 2, ready: 1, waiting: 0
 };
 
 
