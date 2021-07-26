@@ -8,6 +8,8 @@
 
 class CPU {
 public:
+    CPU() = default;
+
     void loadProcess(Process &p){CurrentProcess = p;}
     void runProcess();
     Process* kickProcess(Process &p);
