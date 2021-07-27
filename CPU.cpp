@@ -4,8 +4,12 @@
 
 #include "CPU.h"
 
-Process *CPU::kickProcess(Process &p) {
-    Process *oldP = &this->CurrentProcess;
-    this->CurrentProcess = p;// can be nullptr
-    return oldP;
+Process &CPU::kickProcess() {
+    Process t = CurrentProcess;
+    this->CurrentProcess = Process();
+    return t;
+}
+
+const Process &CPU::pingProcess() {
+    return CurrentProcess;
 }
