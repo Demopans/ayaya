@@ -8,8 +8,9 @@
 #include <algorithm>
 #include <queue>
 #include "Algorithm.h"
+#include "Process.h"
 
-bool eventComparator(Event a, Event b);
+bool processComparator(Process a, Process b);
 
 class SJF : private Algorithm{
     std::priority_queue<Event> queue;

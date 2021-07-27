@@ -4,6 +4,6 @@
 
 #include "SJF.h"
 
-bool eventComparator(Event a, Event b) {
+bool processComparator(Process a, Process b) {
     return false;
 }

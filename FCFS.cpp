@@ -1,4 +1,5 @@
 #include "Process.h"
+#include "Random.h"
 #include <vector>
 #include <string>
 #include <queue>
@@ -6,7 +7,7 @@
 void initialize_processes(int num_processes, int seed, std::vector<Process>& processes);
 double next_exp(double lambda, int upper_bound);
 
-void FCFS(int num_processes, int seed, int context_switch) {
+void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound) {
 	std::string output;
 	std::vector<Process> processes;
 	std::vector<Process> io_queue;
