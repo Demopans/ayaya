@@ -23,6 +23,7 @@ class Process {
         int remaining_bursts();
         void initialize_process();
 
+
     private:
         char id;
         int cpu_burst_time;

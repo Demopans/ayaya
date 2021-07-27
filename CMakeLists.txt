@@ -3,4 +3,4 @@ project(project)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(project main.cpp Algorithm.cpp Algorithm.h SJF.cpp SJF.h SRT.cpp SRT.h RR.cpp RR.h Event.cpp Event.h Rand48.h CPU.cpp CPU.h)
+add_executable(project main.cpp Algorithm.cpp Algorithm.h SJF.cpp SJF.h SRT.cpp SRT.h RR.cpp RR.h Rand48.h CPU.cpp CPU.h Process.h Process.cpp)
