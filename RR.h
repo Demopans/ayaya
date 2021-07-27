@@ -5,14 +5,19 @@
 #ifndef PROJECT_RR_H
 #define PROJECT_RR_H
 
-#include "Algorithm.h"
-#include "queue"
+#include <utility>
 
-class RR : private Algorithm{
+#include "Algorithm.h"
+
+class RR : private Algorithm {
 public:
+    void process(const std::vector<Process> &pids);
+
+    RR(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, const std::queue<Process> &incomingProcesses,
+       int limit) : Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses), limit(limit) {}
 
 private:
-    std::queue<Process> queue;
+    int limit;
 };
 
 

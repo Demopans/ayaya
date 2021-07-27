@@ -9,27 +9,32 @@
 #include "Process.h"
 #include "CPU.h"
 #include <queue>
-
-struct cmp{
-    bool operator()(Process a, Process b){
-        return (a.get_io_burst_time() == b.get_io_burst_time())?
-               (a.get_id()>b.get_id()):
-               (a.get_io_burst_time() > b.get_io_burst_time());
-    }
-};
+#include <utility>
 
 class Algorithm {
-public:
-
 private:
+    struct cmp{
+        bool operator()(Process a, Process b){
+            return (a.get_io_burst_time() == b.get_io_burst_time())?
+                   (a.get_id()>b.get_id()):
+                   (a.get_io_burst_time() > b.get_io_burst_time());
+        }
+    };
+    std::priority_queue<Process, std::vector<Process>,cmp> IOstuck;
+
+protected:
+    CPU cpu = CPU();
+    unsigned long tick = 0;
     int ctContextSwitch;
     int ctPreemptions;
     int CPUBurstTimes;
     std::queue<Process> incomingProcesses;
-    std::priority_queue<Process, std::vector<Process>,cmp> IOstuck;
-    unsigned long tick = 0;
-    CPU cpu;
 
+
+public:
+    Algorithm(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, std::queue<Process> incomingProcesses) :
+    ctContextSwitch(ctContextSwitch), ctPreemptions(ctPreemptions), CPUBurstTimes(cpuBurstTimes),
+    incomingProcesses(std::move(incomingProcesses)) {};
 };
 
 

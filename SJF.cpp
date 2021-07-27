@@ -28,17 +28,17 @@ void SJF::process(const std::vector<Process> &pids) {
 
     int countdowm = 0;
 
-    for (int t = 0; ;t++){
+    while (true){
         //boot when empty
 
         //push to queue if process arrival time
-        if (ids.top().get_arrival_time() == t){pushToQueue(ids.top());ids.pop();}
+        if (ids.top().get_arrival_time() == tick){pushToQueue(ids.top());ids.pop();}
 
         //kick process out if time ends
-        Process tmp = core.pingProcess();
-        bool s = (t - tmp.get_arrival_time()) == tmp.get_arrival_time();
+        Process tmp = cpu.pingProcess();
+        bool s = (tick - tmp.get_arrival_time()) == tmp.get_arrival_time();
         if (s){
-            core.kickProcess();
+            cpu.kickProcess();
         }
     }
 }

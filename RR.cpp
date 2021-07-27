@@ -3,3 +3,7 @@
 //
 
 #include "RR.h"
+
+void RR::process(const std::vector<Process> &pids) {
+
+}
