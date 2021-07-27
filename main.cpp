@@ -15,6 +15,8 @@
 #include "SRT.h"
 #include "Rand48.h"
 
+double next_exp(double lambda, int upper_bound);
+
 int main(int argc, char *argv[]) {
     if (argc!=8){// errot handling
         std::string errr = argc < 7 ? "not enough input arguments.\n" : "too many input arguments.\n";
