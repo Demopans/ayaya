@@ -13,7 +13,7 @@
 bool processComparator(Process a, Process b);
 
 class SJF : private Algorithm{
-    std::priority_queue<Event> queue;
+    std::priority_queue<Process> queue;
 };
 
 

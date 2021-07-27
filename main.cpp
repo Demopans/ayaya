@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
         use srand48() before each scheduling algorithm
         use drand48() obtain the next value in range[0.0, 1.0) */
     int seed = std::stoi(argv[2]);
-    srand48(seed);
+    //srand48(seed);
 
     /*  third input argument is the lambda for calculating an exponential distribution of interarrival times
         fourth input argument is the upper bound for exponential distribution numbers
@@ -60,8 +60,7 @@ int main(int argc, char *argv[]) {
     int time_slice = std::stoi(argv[7]);
     bool rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
 
-
-
+    
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }

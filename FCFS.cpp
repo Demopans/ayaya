@@ -4,7 +4,8 @@
 #include <string>
 #include <queue>
 
-void initialize_processes(int num_processes, int seed, std::vector<Process>& processes);
+void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
+                          std::vector<Process>& processes);
 double next_exp(double lambda, int upper_bound);
 
 void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound) {
