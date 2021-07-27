@@ -1,5 +1,5 @@
 /**
- * Special colorful (if you are using and IDE) Comments for the Betterment of Society and Paul's Ass
+ * Special colorful (if you are using an IDE) Comments for the Betterment of Society and Paul's Ass
  *
  *
  */

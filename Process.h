@@ -24,7 +24,7 @@ public:
     int get_num_cpu_bursts() const { return num_cpu_bursts; }
 
 private:
-    char id;
+    char id = -1;
     int cpu_burst_time = -1;
     int io_burst_time = -1;
     int arrival_time = -1;

@@ -11,6 +11,11 @@
 #include <queue>
 #include <utility>
 
+#define op <
+
+/*
+ * Singleton would be a good idea, but no time for that
+ */
 class Algorithm {
 private:
     struct cmp{

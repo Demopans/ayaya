@@ -13,3 +13,7 @@ Process &CPU::kickProcess() {
 const Process &CPU::pingProcess() {
     return CurrentProcess;
 }
+
+bool CPU::isIdle() {
+    return CurrentProcess.get_id()==-1;
+}

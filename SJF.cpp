@@ -4,7 +4,6 @@
 
 #include <list>
 #include "SJF.h"
-#define op <
 
 void SJF::pushToQueue(const Process &p) {
     this->queue.push(p);

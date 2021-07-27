@@ -14,6 +14,8 @@ public:
     Process &kickProcess();
 
     const Process& pingProcess ();
+
+    bool isIdle();
 private:
     Process CurrentProcess;
 };

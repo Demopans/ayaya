@@ -12,12 +12,7 @@
 #include "Process.h"
 #include "CPU.h"
 
-#define op <
 
-
-/*
- * Singleton would be a good idea, bur no time for that
- */
 class SJF : private Algorithm {
 private:
 
