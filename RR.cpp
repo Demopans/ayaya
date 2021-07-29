@@ -37,12 +37,12 @@ void RR::process(const std::vector<Process> &pids) {
     while (!ids.empty()) {
         Process t;
         // CPU Burst done?
-        if (!cpu.isIdle() && cpu.pingProcess().get_cpu_burst_time()==0) {
+        if (!cpu.isIdle() && (t = cpu.pingProcess()).get_cpu_burst_time()==0) {
             t = cpu.kickProcess();
             IOHell.push(t);
         }
-        else{
-
+        else if (t.get_cpu_burst_time()>0){
+            cpu.subCPUTime();
         }
         //io hell
         while ((t = IOHell.top()).get_io_burst_time()==0){

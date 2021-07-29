@@ -13,11 +13,11 @@ class Process {
 
     private:
         char id = -1;
-        int cpu_burst_time;
-        int io_burst_time;
-        int arrival_time;
-        int num_cpu_bursts;
-        int remaining_bursts;
+        int cpu_burst_time{};
+        int io_burst_time{};
+        int arrival_time{};
+        int num_cpu_bursts{};
+        int remaining_bursts{};
         std::vector<int> cpu_burst_times;
         std::vector<int> io_burst_times;
 
