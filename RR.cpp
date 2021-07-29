@@ -3,6 +3,12 @@
 //
 
 #include "RR.h"
+bool cc(Process a, Process b) {
+    if (a.get_io_burst_time() == b.get_io_burst_time()) {
+        a.get_id() op b.get_id();
+    }
+    return a.get_io_burst_time() op b.get_io_burst_time();
+};
 
 void RR::process(const std::vector<Process> &pids) {
     struct co {
@@ -19,15 +25,7 @@ void RR::process(const std::vector<Process> &pids) {
     std::queue<Process> readyQ;
     for (const auto &item : pids) {readyQ.push(item);}
 
-    struct cio {
-        auto operator()(Process a, Process b) {
-            if (a.get_io_burst_time() == b.get_io_burst_time()) {
-                a.get_id() op b.get_id();
-            }
-            return a.get_io_burst_time() op b.get_io_burst_time();
-        };
-    };
-    std::priority_queue<Process, std::vector<Process>, cio> IOHell;
+    std::vector<Process> IOHell;
 
 
     int countdowm = 0;
@@ -39,31 +37,32 @@ void RR::process(const std::vector<Process> &pids) {
         // CPU Burst done?
         if (!cpu.isIdle() && (t = cpu.pingProcess()).get_cpu_burst_time()==0) {
             t = cpu.kickProcess();
-            IOHell.push(t);
+            IOHell.push_back(t);
+            std::push_heap(IOHell.begin(),IOHell.end(),cc);
         }
-        else if (t.get_cpu_burst_time()>0){
+        else if (!cpu.isIdle() && t.get_cpu_burst_time()>0){
             cpu.subCPUTime();
         }
+
         //io hell
-        while ((t = IOHell.top()).get_io_burst_time()==0){
-            IOHell.pop();
+        while ((t = IOHell.front()).get_io_burst_time()==0){
+            std::pop_heap(IOHell.begin(),IOHell.end(),cc);
             //check if cpu time remains
             if (t.get_cpu_burst_time()>0){
                 readyQ.push(t);
             }
         }
+        for (auto &item : IOHell) {item.decrement_io_burst();}
 
         //receive process if cpu is idle
         if (cpu.isIdle()) {
-            Process tmp = ids.top();
+            t = ids.top();
             ids.pop();
-            cpu.loadProcess(tmp);
+            cpu.loadProcess(t);
             tick++;
             continue;
         }
         // check if need boot
-
-
         time++;
     }
 
