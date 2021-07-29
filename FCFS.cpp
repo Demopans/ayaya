@@ -8,7 +8,7 @@ double next_exp(double lambda, int upper_bound);
 
 void FCFS(std::vector<Process> processes, int context_switch) {
 	std::string output;
-	std::vector<Process> io_queue;
+	std::queue<Process> io_queue;
 	std::queue<Process> ready_queue;
 	Process running_process;
 	int t = 0;
