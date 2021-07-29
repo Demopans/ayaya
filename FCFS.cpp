@@ -38,7 +38,7 @@ void FCFS(std::vector<Process> processes, int context_switch) {
 				}
 			}
 			else {
-				if(running_process.remaining_bursts() == 0) {
+				if(running_process.get_remaining_bursts() == 0) {
 					processes.remove(running_process);
 				}
 				else {
@@ -77,11 +77,11 @@ void FCFS(std::vector<Process> processes, int context_switch) {
 		}
 
 		//Check for arriving processes
-		for(int i = 0; i < num_processes; i++) {
-			if(processes[i].get_arrival_time() == t) {
+		for(auto & processe : processes) {
+			if(processe.get_arrival_time() == t) {
 				//Check if it arrives with the ready queue empty
 				if(ready_queue.empty()) {
-					running_process = processes[i];
+					running_process = processe;
 				}
 				else {
 					ready_queue.push(running_process);
