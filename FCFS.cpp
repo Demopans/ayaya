@@ -1,12 +1,4 @@
-#include "Process.h"
-#include "Random.h"
-#include <vector>
-#include <string>
-#include <queue>
-
-void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
-                          std::vector<Process>& processes);
-double next_exp(double lambda, int upper_bound);
+#include "FCFS.h"
 
 void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound) {
 	std::string output;
@@ -14,7 +6,7 @@ void FCFS(int num_processes, int seed, int context_switch, double lambda, int up
 	std::vector<Process> io_queue;
 	std::queue<Process> ready_queue;
 	Process running_process;
-	initialize_processes(num_processes, seed, processes);
+	initialize_processes(num_processes, seed, lambda, upper_bound, processes);
 	int t = 0;
 	int t_cs = context_switch;
 	int cpu_not_utilized = 0;
@@ -22,7 +14,7 @@ void FCFS(int num_processes, int seed, int context_switch, double lambda, int up
 	bool starting_context_switch = false;
 	while(!processes.empty()) {
 		//Check if the running process has ended its CPU burst
-		if(running_process.cpu_burst_time() == 0) {
+		if(running_process.get_cpu_burst_time() == 0) {
 			if(!ready_queue.empty()) {
 				if(t_cs != 0) {
 					t_cs--;
@@ -30,11 +22,11 @@ void FCFS(int num_processes, int seed, int context_switch, double lambda, int up
 				else {
 					starting_context_switch = true;
 					t_cs = context_switch;
-					if(running_process.remaining_bursts() == 0) {
-						processes.remove(running_process);
+					if(running_process.get_remaining_bursts() == 0) {
+						erase_process(processes, running_process.get_id());
 					}
 					else {
-						io_queue.push(running_process);
+						io_queue.push_back(running_process);
 						running_process.next_cpu_burst();
 					}
 					running_process = ready_queue.front();
@@ -42,11 +34,11 @@ void FCFS(int num_processes, int seed, int context_switch, double lambda, int up
 				}
 			}
 			else {
-				if(running_process.remaining_bursts() == 0) {
-					processes.remove(running_process);
+				if(running_process.get_remaining_bursts() == 0) {
+					erase_process(processes, running_process.get_id());
 				}
 				else {
-					io_queue.push(running_process);
+					io_queue.push_back(running_process);
 					running_process.next_cpu_burst();
 					running_process = Process();
 				}
@@ -70,10 +62,10 @@ void FCFS(int num_processes, int seed, int context_switch, double lambda, int up
 
 		//Run the processes doing I/O
 		for(int j = 0; j < io_queue.size(); j++) {
-			if(io_queue[j].io_burst_time() == 0) {
+			if(io_queue[j].get_io_burst_time() == 0) {
 				io_queue[j].next_io_burst();
 				ready_queue.push(io_queue[j]);
-				io_queue.remove(j);
+				erase_process(io_queue, io_queue[j].get_id());
 			}
 			else {
 				io_queue[j].decrement_cpu_burst();
@@ -82,7 +74,7 @@ void FCFS(int num_processes, int seed, int context_switch, double lambda, int up
 
 		//Check for arriving processes
 		for(int i = 0; i < num_processes; i++) {
-			if(processes[i].arrival_time() == t) {
+			if(processes[i].get_arrival_time() == t) {
 				//Check if it arrives with the ready queue empty
 				if(ready_queue.empty()) {
 					running_process = processes[i];

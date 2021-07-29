@@ -42,3 +42,11 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
 
 	}
 }
+
+void erase_process(std::vector<Process>& processes, char id) {
+	for(int i = 0; i < processes.size(); i++) {
+		if(processes[i].get_id() == id) {
+			processes.erase(processes.begin() + i);
+		}
+	}
+}
