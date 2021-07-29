@@ -66,7 +66,7 @@ void FCFS(std::vector<Process> processes, int context_switch) {
 
 		//Run the processes doing I/O
 		for(int j = 0; j < io_queue.size(); j++) {
-			if(io_queue[j].io_burst_time() == 0) {
+			if(io_queue[j].get_io_burst_time() == 0) {
 				io_queue[j].next_io_burst();
 				ready_queue.push(io_queue[j]);
 				io_queue.remove(j);
@@ -78,7 +78,7 @@ void FCFS(std::vector<Process> processes, int context_switch) {
 
 		//Check for arriving processes
 		for(int i = 0; i < num_processes; i++) {
-			if(processes[i].arrival_time() == t) {
+			if(processes[i].get_arrival_time() == t) {
 				//Check if it arrives with the ready queue empty
 				if(ready_queue.empty()) {
 					running_process = processes[i];
