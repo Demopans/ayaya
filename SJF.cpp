@@ -43,4 +43,4 @@ void SJF::process(const std::vector<Process> &pids) {
 bool processComparator(Process a, Process b) {
     return false;
 
-}
+};

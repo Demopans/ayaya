@@ -6,6 +6,7 @@
 
 Process::Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::vector<int> io_bursts) {
 	//Initialize all the parameters that can be set 
+	this->empty_process = false;
 	this->id = id;
 	this->arrival_time = arrival_time;
 	this->num_cpu_bursts = cpu_bursts.size();
@@ -17,7 +18,12 @@ Process::Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::ve
 	}
 	this->remaining_bursts = num_cpu_bursts;
 	this->cpu_burst_time = this->cpu_burst_times[0];
-	if(num_cpu_bursts > 1) this->io_burst_time = io_bursts[0];
+}
+
+void Process::next_burst_times() {
+	remaining_bursts--;
+	cpu_burst_time = cpu_burst_times[num_cpu_bursts - remaining_bursts];
+	if(remaining_bursts != 0) io_burst_time = io_burst_times[num_cpu_bursts - remaining_bursts - 1];
 }
 
 void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
@@ -42,4 +48,20 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
 
 	}
 }
+
+void erase_process(std::vector<Process>& processes, char id) {
+	for(int i = 0; i < processes.size(); i++) {
+		if(processes[i].get_id() == id) {
+			processes.erase(processes.begin() + i);
+		}
+	}
+}
+
+bool contains(const std::vector<Process>& io_queue, char id) {
+	for(int i = 0; i < io_queue.size(); i++) {
+		if(io_queue[i].get_id() == id) return true;
+	}
+	return false;
+}
+
 

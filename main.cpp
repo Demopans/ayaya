@@ -14,8 +14,8 @@
 #include "SJF.h"
 #include "SRT.h"
 #include "Rand48.h"
-
-double next_exp(double lambda, int upper_bound);
+#include "Random.h"
+#include "FCFS.h"
 
 int main(int argc, char *argv[]) {
     if (argc!=8){// errot handling
@@ -61,12 +61,8 @@ int main(int argc, char *argv[]) {
     bool rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
 
 
-    std::vector<Process> pids;
-    for (const auto &id : ids) {
-        pids.emplace_back(id);
-    }
+    FCFS(pCount, seed, context_switch/2, lambda, tail);
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }
-
