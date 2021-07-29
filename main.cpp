@@ -23,23 +23,24 @@ int main(int argc, char *argv[]) {
         std::cerr << errr;
         return EXIT_FAILURE;
     }
-    /*  first input argument is the seed for random number generator
-        use srand48() before each scheduling algorithm
-        use drand48() obtain the next value in range[0.0, 1.0) */
-    int seed = std::stoi(argv[1]);
-    srand48(seed);
 
-    /*  second input argument is the lambda for calculating an exponential distribution of interarrival times
-        third input argument is the upper bound for exponential distribution numbers
-        use in the ceiling function */
-    double lambda = std::stof(argv[2]);
-    double tail = std::stof(argv[3]);
-
-    /*  fourth input argument is the number of processes to simulate
+    /*  first input argument is the number of processes to simulate
         Process IDs are A->Z, so 26 at most */
     std::string ids = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int pCount = std::stoi(argv[4]);
+    int pCount = std::stoi(argv[1]);
     if (pCount > 26){std::cerr << "too many processes\n.";exit(EXIT_FAILURE);}
+
+    /*  second input argument is the seed for random number generator
+        use srand48() before each scheduling algorithm
+        use drand48() obtain the next value in range[0.0, 1.0) */
+    int seed = std::stoi(argv[2]);
+    //srand48(seed);
+
+    /*  third input argument is the lambda for calculating an exponential distribution of interarrival times
+        fourth input argument is the upper bound for exponential distribution numbers
+        use in the ceiling function */
+    double lambda = std::stof(argv[3]);
+    double tail = std::stof(argv[4]);
 
     /*  fifth input argument is t_cs in milliseconds to perform a context switch
         the 1st half of t_cs is the time to remove given process from CPU
@@ -59,11 +60,11 @@ int main(int argc, char *argv[]) {
     int time_slice = std::stoi(argv[7]);
     bool rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
 
+
     std::vector<Process> pids;
     for (const auto &id : ids) {
         pids.emplace_back(id);
     }
-
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

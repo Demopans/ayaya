@@ -40,4 +40,7 @@ void SJF::process(const std::vector<Process> &pids) {
             cpu.kickProcess();
         }
     }
+bool processComparator(Process a, Process b) {
+    return false;
+
 }

@@ -10,6 +10,7 @@
 #include <utility>
 #include "Algorithm.h"
 #include "Process.h"
+
 #include "CPU.h"
 
 
@@ -36,6 +37,12 @@ public:
 
     void process(const std::vector<Process> &pids);
 
+=======
+
+bool processComparator(Process a, Process b);
+
+class SJF : private Algorithm{
+    std::priority_queue<Process> queue;
 };
 
 

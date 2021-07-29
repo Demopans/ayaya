@@ -5,32 +5,48 @@
 #ifndef PROJECT_PROCESS_H
 #define PROJECT_PROCESS_H
 
+#include <vector>
+#include "Random.h"
+#include <iostream>
+
+const char id_names[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', \
+                            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', \
+                            'X', 'Y', 'Z'};
+
 class Process {
-public:
-    Process() = default;
 
-    Process(char id, int cpuBurstTime, int ioBurstTime, int arrivalTime, int numCpuBursts, int state) :
-            id(id),cpu_burst_time(cpuBurstTime),io_burst_time(ioBurstTime),
-            arrival_time(arrivalTime),num_cpu_bursts(numCpuBursts),state(state) {}
+    private:
+        char id;
+        int cpu_burst_time;
+        int io_burst_time;
+        int arrival_time;
+        int num_cpu_bursts;
+        int remaining_bursts;
+        std::vector<int> cpu_burst_times;
+        std::vector<int> io_burst_times;
 
-    explicit Process(char id) : id(id) {}
 
-    void change_cpu_burst(int new_time) {cpu_burst_time = new_time; }
-    void change_io_burst(int new_time) { io_burst_time = new_time; }
-    char get_id() const { return id; }
-    int get_cup_burst_time() const { return cpu_burst_time; }
-    int get_io_burst_time() const { return io_burst_time; }
-    int get_arrival_time() const { return arrival_time; }
-    int get_num_cpu_bursts() const { return num_cpu_bursts; }
-
-private:
-    char id = -1;
-    int cpu_burst_time = -1;
-    int io_burst_time = -1;
-    int arrival_time = -1;
-    int num_cpu_bursts = -1;
-    int state = -1; // running: 2, ready: 1, waiting: 0
+    public:
+        Process();
+        Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::vector<int> io_bursts);
+        void change_cpu_burst(int new_time) {cpu_burst_time = new_time; }
+        void decrement_cpu_burst() { cpu_burst_time--; }
+        void change_io_burst();
+        void decrement_io_burst() { io_burst_time--; }
+        char get_id() { return id; }
+        int get_cpu_burst_time() { return cpu_burst_time; }
+        int get_io_burst_time() { return io_burst_time; }
+        int get_arrival_time() { return arrival_time; }
+        int get_num_cpu_bursts() { return num_cpu_bursts; }
+        void next_cpu_burst();
+        void next_io_burst();
+        int get_remaining_bursts() { return remaining_bursts; }
+        std::vector<int> get_cpu_burst_times() { return cpu_burst_times; }
+        std::vector<int> get_io_burst_times() { return io_burst_times; }
 };
+
+void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
+                          std::vector<Process>& processes);
 
 
 #endif //PROJECT_PROCESS_H
