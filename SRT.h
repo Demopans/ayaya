@@ -16,11 +16,13 @@
 
 class SRT : private Algorithm{
 private:
-    static bool compare(Process a, Process b);
+    static bool compare(const Process& a, const Process& b);
     struct com{
-        bool operator()(Process a, Process b){return compare(a,b);}
+        bool operator()(const Process& a, const Process& b){return compare(a,b);}
     };
     std::priority_queue<Process,std::vector<Process>,com> queue;
+public:
+    void process();
 };
 
 

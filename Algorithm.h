@@ -17,16 +17,6 @@
  * Singleton would be a good idea, but no time for that
  */
 class Algorithm {
-private:
-    struct cmp{
-        bool operator()(Process a, Process b){
-            return (a.get_io_burst_time() == b.get_io_burst_time())?
-                   (a.get_id()>b.get_id()):
-                   (a.get_io_burst_time() > b.get_io_burst_time());
-        }
-    };
-    std::priority_queue<Process, std::vector<Process>,cmp> IOstuck;
-
 protected:
     CPU cpu = CPU();
     unsigned long tick = 0;

@@ -16,22 +16,38 @@ void RR::process(const std::vector<Process> &pids) {
     std::priority_queue<Process, std::vector<Process>, co> ids;
     for (const auto &pid : pids) { ids.push(pid); }
 
-    std::queue<Process> rrQ;
-    for (const auto &item : pids) {
-        rrQ.push(item);
-    }
+    std::queue<Process> readyQ;
+    for (const auto &item : pids) {readyQ.push(item);}
+
+    struct cio {
+        auto operator()(Process a, Process b) {
+            if (a.get_io_burst_time() == b.get_io_burst_time()) {
+                a.get_id() op b.get_id();
+            }
+            return a.get_io_burst_time() op b.get_io_burst_time();
+        };
+    };
+    std::priority_queue<Process, std::vector<Process>, cio> IOHell;
+
 
     int countdowm = 0;
     int counter = limit;
     while (!ids.empty()) {
         // CPU Burst done?
-        if (!cpu.isIdle()) {
+        if (cpu.pingProcess().get_cpu_burst_time()==0) {
 
         }
         //io hell
+        Process t;
+        while ((t = IOHell.top()).get_io_burst_time()==0){
+            IOHell.pop();
+            //check if cpu time remains
+            if (t.get_cpu_burst_time()>0){
+                readyQ.push(t);
+            }
+        }
 
-
-        //recieve process if cpu is idle
+        //receive process if cpu is idle
         if (cpu.isIdle()) {
             Process tmp = ids.top();
             ids.pop();
