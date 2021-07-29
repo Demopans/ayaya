@@ -28,22 +28,29 @@ void RR::process(const std::vector<Process> &pids) {
     std::vector<Process> IOHell;
 
 
-    int countdowm = 0;
-
+    int premptiontimer = 0;
     int time = 0;
+    int timer = limit;
+
     while (!ids.empty()) {
         Process t;
         // CPU Burst done?
-        if (!cpu.isIdle()&&countdowm==0){
+        if (!cpu.isIdle()&&premptiontimer==0){
             t = cpu.pingProcess();
             if (t.get_cpu_burst_time()==0) {
                 t = cpu.kickProcess();
                 IOHell.push_back(t);
                 std::push_heap(IOHell.begin(),IOHell.end(),cc);
-                countdowm = contextSwitchDur;
-            } else if (time%limit==0){
-                t = cpu.kickProcess();
-                readyQ.push(t);
+                premptiontimer = contextSwitchDur;
+            } else if (timer==0){
+                if (!readyQ.empty()){
+                    t = cpu.kickProcess();
+                    readyQ.push(t);
+                }
+                else{
+                    timer = limit;
+                }
+
             }
             else if (t.get_cpu_burst_time()>0){
                 cpu.subCPUTime();
@@ -69,7 +76,7 @@ void RR::process(const std::vector<Process> &pids) {
             continue;
         }
         // check if need boot
-        time++;
+        time++;timer--;
     }
 
 
