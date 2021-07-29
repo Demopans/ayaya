@@ -41,7 +41,5 @@ class Process {
         std::vector<int> get_io_burst_times() { return io_burst_times; }
 };
 
-void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, std::vector<Process>& processes);
-
 
 #endif //PROJECT_PROCESS_H
