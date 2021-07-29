@@ -16,12 +16,19 @@ void RR::process(const std::vector<Process> &pids) {
     std::priority_queue<Process,std::vector<Process>,co> ids;
     for (const auto &pid : pids) {ids.push(pid);}
 
+    std::queue<Process> rrQ;
+    for (const auto &item : pids) {
+        rrQ.push(item);
+    }
+
     int countdowm = 0;
-    Process t = Process();
-    cpu.loadProcess(t);
     int counter = limit;
     while (!ids.empty()){
         // CPU Burst done?
+        if (!cpu.isIdle()){
+
+        }
+        //io hell
 
 
         //recieve process if cpu is idle
