@@ -11,11 +11,14 @@ public:
     CPU() = default;
 
     void loadProcess(Process &p){CurrentProcess = p;}
-    Process &kickProcess();
+    Process kickProcess();
 
     const Process& pingProcess ();
 
     bool isIdle();
+
+    void subCPUTime();
+    void subIOTime();
 private:
     Process CurrentProcess;
 };

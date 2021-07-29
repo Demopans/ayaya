@@ -4,7 +4,7 @@
 
 #include "CPU.h"
 
-Process &CPU::kickProcess() {
+Process CPU::kickProcess() {
     Process t = CurrentProcess;
     this->CurrentProcess = Process();
     return t;
@@ -16,4 +16,12 @@ const Process &CPU::pingProcess() {
 
 bool CPU::isIdle() {
     return CurrentProcess.get_id()==-1;
+}
+
+void CPU::subCPUTime() {
+    CurrentProcess.decrement_cpu_burst();
+}
+
+void CPU::subIOTime() {
+    CurrentProcess.decrement_io_burst();
 }

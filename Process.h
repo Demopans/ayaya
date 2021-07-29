@@ -23,7 +23,7 @@ class Process {
 
 
     public:
-        Process()= default;
+        Process()= default;//subisture to null
         Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::vector<int> io_bursts);
         void change_cpu_burst(int new_time) {cpu_burst_time = new_time; }
         void decrement_cpu_burst() { cpu_burst_time--; }

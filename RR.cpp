@@ -32,13 +32,19 @@ void RR::process(const std::vector<Process> &pids) {
 
     int countdowm = 0;
     int counter = limit;
+
+    int time = 0;
     while (!ids.empty()) {
+        Process t;
         // CPU Burst done?
-        if (cpu.pingProcess().get_cpu_burst_time()==0) {
+        if (!cpu.isIdle() && cpu.pingProcess().get_cpu_burst_time()==0) {
+            t = cpu.kickProcess();
+            IOHell.push(t);
+        }
+        else{
 
         }
         //io hell
-        Process t;
         while ((t = IOHell.top()).get_io_burst_time()==0){
             IOHell.pop();
             //check if cpu time remains
@@ -58,7 +64,7 @@ void RR::process(const std::vector<Process> &pids) {
         // check if need boot
 
 
-
+        time++;
     }
 
 
