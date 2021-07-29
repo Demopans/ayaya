@@ -29,19 +29,25 @@ void RR::process(const std::vector<Process> &pids) {
 
 
     int countdowm = 0;
-    int counter = limit;
 
     int time = 0;
     while (!ids.empty()) {
         Process t;
         // CPU Burst done?
-        if (!cpu.isIdle() && (t = cpu.pingProcess()).get_cpu_burst_time()==0) {
-            t = cpu.kickProcess();
-            IOHell.push_back(t);
-            std::push_heap(IOHell.begin(),IOHell.end(),cc);
-        }
-        else if (!cpu.isIdle() && t.get_cpu_burst_time()>0){
-            cpu.subCPUTime();
+        if (!cpu.isIdle()&&countdowm==0){
+            t = cpu.pingProcess();
+            if (t.get_cpu_burst_time()==0) {
+                t = cpu.kickProcess();
+                IOHell.push_back(t);
+                std::push_heap(IOHell.begin(),IOHell.end(),cc);
+                countdowm = contextSwitchDur;
+            } else if (time%limit==0){
+                t = cpu.kickProcess();
+                readyQ.push(t);
+            }
+            else if (t.get_cpu_burst_time()>0){
+                cpu.subCPUTime();
+            }
         }
 
         //io hell

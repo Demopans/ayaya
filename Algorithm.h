@@ -24,12 +24,12 @@ protected:
     int ctPreemptions;
     int CPUBurstTimes;
     std::queue<Process> incomingProcesses;
-
+    int contextSwitchDur;
 
 public:
-    Algorithm(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, std::queue<Process> incomingProcesses) :
+    Algorithm(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, std::queue<Process> incomingProcesses, int contextSwitchDur) :
     ctContextSwitch(ctContextSwitch), ctPreemptions(ctPreemptions), CPUBurstTimes(cpuBurstTimes),
-    incomingProcesses(std::move(incomingProcesses)) {};
+    incomingProcesses(std::move(incomingProcesses)), contextSwitchDur(contextSwitchDur) {};
 };
 
 
