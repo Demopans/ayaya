@@ -17,13 +17,14 @@
 
 double next_exp(double lambda, int upper_bound);
 
+std::string ids = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 void initialize_processes(int num_processes, int seed, double lambda, double upper_bound,
  						  std::vector<Process>& processes) {
     //Set the seed
     srand48(seed);
     //Iterator for each process, starting from process "A"
     for(int i = 0; i < num_processes; i++) {
-        char pid = id_names[i];
+        char pid = ids[i];
         std::vector<int> cpu_bursts;
         std::vector<int> io_bursts;
         int arrival_time = (int) next_exp(lambda, upper_bound);
@@ -48,7 +49,6 @@ int main(int argc, char *argv[]) {
 
     /*  first input argument is the number of processes to simulate
         Process IDs are A->Z, so 26 at most */
-    std::string ids = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int pCount = std::stoi(argv[1]);
     if (pCount > 26){std::cerr << "too many processes\n.";exit(EXIT_FAILURE);}
 
