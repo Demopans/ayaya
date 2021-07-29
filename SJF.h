@@ -19,10 +19,10 @@ private:
 
     struct com {
         bool operator()(Process a, Process b) {
-            if (a.get_cup_burst_time() == b.get_cup_burst_time()) {
+            if (a.get_cpu_burst_time() == b.get_cpu_burst_time()) {
                 return a.get_arrival_time() op b.get_arrival_time();
             }
-            return a.get_cup_burst_time() op b.get_cup_burst_time();
+            return a.get_cpu_burst_time() op b.get_cpu_burst_time();
         }
     };
 
@@ -33,17 +33,11 @@ private:
 public:
     SJF(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, const std::queue<Process> &incomingProcesses,
         std::priority_queue<Process, std::vector<Process>, com> queue) :
-        Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses), queue(std::move(queue)) {}
+            Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses), queue(std::move(queue)) {}
 
     void process(const std::vector<Process> &pids);
 
-=======
-
-bool processComparator(Process a, Process b);
-
-class SJF : private Algorithm{
-    std::priority_queue<Process> queue;
 };
-
+bool processComparator(Process a, Process b);
 
 #endif //PROJECT_SJF_H
