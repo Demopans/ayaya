@@ -1,5 +1,5 @@
 /**
- * Special colorful (if you are using and IDE) Comments for the Betterment of Society and Paul's Ass
+ * Special colorful (if you are using an IDE) Comments for the Betterment of Society and Paul's Ass
  *
  *
  */
@@ -60,7 +60,12 @@ int main(int argc, char *argv[]) {
     int time_slice = std::stoi(argv[7]);
     bool rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
 
-    
+
+    std::vector<Process> pids;
+    for (const auto &id : ids) {
+        pids.emplace_back(id);
+    }
+
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }

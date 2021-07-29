@@ -4,10 +4,20 @@
 
 #ifndef PROJECT_CPU_H
 #define PROJECT_CPU_H
-
+#include "Process.h"
 
 class CPU {
+public:
+    CPU() = default;
 
+    void loadProcess(Process &p){CurrentProcess = p;}
+    Process &kickProcess();
+
+    const Process& pingProcess ();
+
+    bool isIdle();
+private:
+    Process CurrentProcess;
 };
 
 
