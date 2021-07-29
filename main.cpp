@@ -17,7 +17,7 @@
 
 double next_exp(double lambda, int upper_bound);
 
-void initialize_processes(int num_processes, int seed, double lambda, int upper_bound,
+void initialize_processes(int num_processes, int seed, double lambda, double upper_bound,
  						  std::vector<Process>& processes) {
     //Set the seed
     srand48(seed);
