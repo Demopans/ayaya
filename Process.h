@@ -43,7 +43,6 @@ class Process {
         int get_remaining_bursts() { return remaining_bursts; }
         std::vector<int> get_cpu_burst_times() { return cpu_burst_times; }
         std::vector<int> get_io_burst_times() { return io_burst_times; }
-
 };
 
 void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
