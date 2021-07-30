@@ -26,29 +26,6 @@ void Process::next_burst_times() {
 	if(remaining_bursts != 0) io_burst_time = io_burst_times[num_cpu_bursts - remaining_bursts - 1];
 }
 
-void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
- 						  std::vector<Process>& processes) {
-	//Set the seed
-	srand48(seed);
-	//Iterator for each process, starting from process "A"
-	for(int i = 0; i < num_processes; i++) {
-		char pid = id_names[i];
-		std::vector<int> cpu_bursts;
-		std::vector<int> io_bursts;
-		int arrival_time = (int) next_exp(lambda, upper_bound);
-		int num_cpu_bursts = int(drand48() * 100) + 1;
-		for(int j = 0; j < num_cpu_bursts; j++) {
-			cpu_bursts.push_back((int(next_exp(lambda, upper_bound))) + 1);
-			if(j != num_cpu_bursts - 1) {
-				io_bursts.push_back( ((int(next_exp(lambda, upper_bound))) + 1) * 10);
-			}
-		}
-		Process init_process(pid, arrival_time, cpu_bursts, io_bursts);
-		processes.push_back(init_process);
-
-	}
-}
-
 void erase_process(std::vector<Process>& processes, char id) {
 	for(int i = 0; i < processes.size(); i++) {
 		if(processes[i].get_id() == id) {
