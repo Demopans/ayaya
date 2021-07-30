@@ -14,73 +14,57 @@ void RR::process(const std::vector<Process> &pids) {
             return a.get_arrival_time() op b.get_arrival_time();
         };
     };
-    std::priority_queue<Process, std::vector<Process>, co> ids;
-    for (const auto &pid : pids) { ids.push(pid); }
+    std::priority_queue<Process, std::vector<Process>, co> incomingProcs;
+    for (const auto &pid : pids) { incomingProcs.push(pid); }
 
     std::queue<Process> readyQ;
-    for (const auto &item : pids) {readyQ.push(item);}
+    for (const auto &item : pids) { readyQ.push(item); }
 
     IOSystem IOHell;
 
 
-    int premptiontimer = contextSwitchDur/2;
+    int premptiontimer = contextSwitchDur / 2;
     int time = 0;
     int timer = limit;
 
     cpu.kickProcess();
 
-    while (!ids.empty()) {//starts on empty queue
+    while (!incomingProcs.empty()) {//starts on empty queue
         Process t;
-        if (premptiontimer==0){
-
-        }
-
-
-        /*
-        // CPU Burst done?
-        if (!cpu.isIdle()&&premptiontimer==0){
-            t = cpu.pingProcess();
-            if (t.get_cpu_burst_time()==0) {
+        if (premptiontimer == 0) {//cpu
+            //cpu burst finished
+            if (cpu.pingProcess().get_cpu_burst_time()==0){
                 t = cpu.kickProcess();
-                IOHell.push_back(t);
-                std::push_heap(IOHell.begin(),IOHell.end(),cc);
-                premptiontimer = contextSwitchDur;
-            } else if (timer==0){
-                if (!readyQ.empty()){
-                    t = cpu.kickProcess();
-                    readyQ.push(t);
+                if (t.get_remaining_bursts()>0){
+                    //to io
+                    IOHell.pushIntoIO(t);
                 }
                 else{
-                    timer = limit;
+                    // print finished
                 }
-
-            }
-            else if (t.get_cpu_burst_time()>0){
-                cpu.subCPUTime();
+                premptiontimer=contextSwitchDur;
             }
         }
 
-        //io hell
-        while ((t = IOHell.front()).get_io_burst_time()==0){
-            std::pop_heap(IOHell.begin(),IOHell.end(),cc);
-            //check if cpu time remains
-            if (t.get_cpu_burst_time()>0){
+        //run io checks
+        if ((t = IOHell.pingTop()).get_io_burst_time()==0){
+            if (t.get_remaining_bursts()>0){
+                IOHell.pop();
                 readyQ.push(t);
             }
+            else{
+                IOHell.pop();
+            }
         }
-        for (auto &item : IOHell) {item.decrement_io_burst();}
 
-        //receive process if cpu is idle
-        if (cpu.isIdle()) {
-            t = ids.top();
-            ids.pop();
-            cpu.loadProcess(t);
-            tick++;
-            continue;
+        //check for arrivals
+        if ((t=incomingProcs.top()).get_arrival_time()==time){
+            incomingProcs.pop();
+            readyQ.push(t);
         }
-        // check if need boot
-        time++;timer--;
-         */
+
+        premptiontimer = premptiontimer > 0 ? --premptiontimer : premptiontimer;
+        time++;
     }
 
 

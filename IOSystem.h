@@ -27,6 +27,9 @@ public:
     const Process& pingTop(){
         return IOQueue[0];
     }
+    void pop(){
+        std::pop_heap(IOQueue.begin(),IOQueue.end(),cc);
+    }
 };
 
 #endif //PROJECT_IOSYSTEM_H
