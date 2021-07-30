@@ -23,7 +23,7 @@ public:
         int contextSwitchDur): Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses,
                                          contextSwitchDur) {}
 
-    void process(const std::vector<Process> &pids);
+    void process(const std::vector<Process> &pids, double lambda, double alpha);
 
 };
 bool processComparator(const Process& a, const Process& b);

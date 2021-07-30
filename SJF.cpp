@@ -2,16 +2,16 @@
 // Created by demo on 7/19/2021.
 //
 
-#include <list>
+#include <unordered_map>
 #include "SJF.h"
 
 /**
  *
  * @param pids
  */
-void SJF::process(const std::vector<Process> &pids) {
+void SJF::process(const std::vector<Process> &pids, double lambda, double alpha) {
     struct co {
-        auto operator()(Process a, Process b) {
+        auto operator()(const Process& a, const Process& b) {
             if (a.get_arrival_time() == b.get_arrival_time()) {
                 a.get_id() op b.get_id();
             }
@@ -20,6 +20,9 @@ void SJF::process(const std::vector<Process> &pids) {
     };
     std::priority_queue<Process, std::vector<Process>, co> incomingProcs;
     for (const auto &pid : pids) { incomingProcs.push(pid); }
+
+    // estimation for priority
+
 
     int countdowm = 0;
     
