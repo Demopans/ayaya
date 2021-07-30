@@ -42,8 +42,6 @@ class Process {
         std::vector<int> get_io_burst_times() { return io_burst_times; }
 };
 
-void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
-                          std::vector<Process>& processes);
 void erase_process(std::vector<Process>& processes, char id);
 bool contains(const std::vector<Process>& io_queue, char id);
 

@@ -10,6 +10,7 @@
 #include "CPU.h"
 #include <queue>
 #include <utility>
+#include "IOSystem.h"
 
 #define op <
 

@@ -5,10 +5,6 @@
 #include <list>
 #include "SJF.h"
 
-void SJF::pushToQueue(const Process &p) {
-    this->queue.push(p);
-}
-
 /**
  *
  * @param pids
@@ -22,29 +18,69 @@ void SJF::process(const std::vector<Process> &pids) {
             return a.get_arrival_time() op b.get_arrival_time();
         };
     };
-    std::priority_queue<Process, std::vector<Process>, co> ids;
-    for (const auto &pid : pids) { ids.push(pid); }
+    std::priority_queue<Process, std::vector<Process>, co> incomingProcs;
+    for (const auto &pid : pids) { incomingProcs.push(pid); }
 
     int countdowm = 0;
+    
+    //sort queue by priority
+    struct com {
+        bool operator()(Process a, Process b) {
+            if (a.get_cpu_burst_time() == b.get_cpu_burst_time()) {
+                return a.get_arrival_time() op b.get_arrival_time();
+            }
+            return a.get_cpu_burst_time() op b.get_cpu_burst_time();
+        }
+    };
+    std::priority_queue<Process, std::vector<Process>, com> readyQ;
 
-    while (true) {
-        //boot when empty
+    cpu.kickProcess();
 
-        //push to queue if process arrival time
-        if (ids.top().get_arrival_time() == tick) {
-            pushToQueue(ids.top());
-            ids.pop();
+    IOSystem IOHell;
+    int premptiontimer = contextSwitchDur / 2;
+    int time = 0;
+
+    while (!incomingProcs.empty()) {//starts on empty queue
+        Process t;
+        if (premptiontimer == 0) {//cpu
+            //cpu burst finished
+            if (cpu.pingProcess().get_cpu_burst_time()==0){
+                t = cpu.kickProcess();
+                if (t.get_remaining_bursts()>0){
+                    //to io
+                    IOHell.pushIntoIO(t);
+                }
+                else{
+                    // print finished
+                }
+                premptiontimer=contextSwitchDur;
+            }
         }
 
-        //kick process out if time ends
-        Process tmp = cpu.pingProcess();
-        bool s = (tick - tmp.get_arrival_time()) == tmp.get_arrival_time();
-        if (s) {
-            cpu.kickProcess();
+        //run io checks
+        if ((t = IOHell.pingTop()).get_io_burst_time()==0){
+            if (t.get_remaining_bursts()>0){
+                IOHell.pop();
+                readyQ.push(t);
+            }
+            else{
+                IOHell.pop();
+            }
         }
+
+        //check for arrivals
+        if ((t=incomingProcs.top()).get_arrival_time()==time){
+            incomingProcs.pop();
+            readyQ.push(t);
+        }
+
+        premptiontimer = premptiontimer > 0 ? --premptiontimer : premptiontimer;
+        time++;
     }
 }
-bool processComparator(Process a, Process b) {
+
+
+bool processComparator(const Process& a, const Process& b) {
     return false;
 
 };
