@@ -1,12 +1,14 @@
 #include "FCFS.h"
 
-void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound) {
+#include <utility>
+
+void FCFS(std::vector<Process> pids, int context_switch) {
 	std::string output;
-	std::vector<Process> processes;
+	std::vector<Process> processes = std::move(pids);
 	std::vector<Process> io_queue;
 	std::queue<Process> ready_queue;
 	Process running_process = Process();
-	initialize_processes(num_processes, seed, lambda, upper_bound, processes);
+
 	int t = 0;
 	int t_cs = context_switch;
 	int cpu_not_utilized = 0;

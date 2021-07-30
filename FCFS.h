@@ -2,4 +2,4 @@
 #include <string>
 #include <queue>
 
-void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound);
+void FCFS(std::vector<Process> pids, int context_switch);

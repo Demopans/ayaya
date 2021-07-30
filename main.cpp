@@ -14,6 +14,7 @@
 #include "RR.h"
 #include "SJF.h"
 #include "SRT.h"
+#include "FCFS.h"
 #include "Rand48.h"
 
 
@@ -99,7 +100,7 @@ int main(int argc, char *argv[]) {
     std::vector<Process> pids;
     initialize_processes(pCount, seed, lambda, tail, pids);
 
-    FCFS(pCount, seed, context_switch/2, lambda, tail);
+    FCFS(pids, context_switch);
 
 
     std::cout << "Hello, World!" << std::endl;
