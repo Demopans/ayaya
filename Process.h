@@ -6,6 +6,8 @@
 #define PROJECT_PROCESS_H
 
 #include <vector>
+#include <string>
+#include <queue>
 #include "Random.h"
 #include <iostream>
 
@@ -18,6 +20,7 @@ class Process {
     private:
         char id;
         int cpu_burst_time;
+        int total_cpu_burst_time;
         int io_burst_time;
         int arrival_time;
         int num_cpu_bursts;
@@ -35,6 +38,7 @@ class Process {
         void decrement_io_burst() { io_burst_time--; }
         char get_id() const { return id; }
         int get_cpu_burst_time() const { return cpu_burst_time; }
+        int get_total_cpu_burst_time() const { return total_cpu_burst_time; }
         int get_io_burst_time() const { return io_burst_time; }
         int get_arrival_time() const { return arrival_time; }
         int get_num_cpu_bursts() const { return num_cpu_bursts; }
@@ -49,6 +53,7 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
                           std::vector<Process>& processes);
 void erase_process(std::vector<Process>& processes, char id);
 bool contains(const std::vector<Process>& io_queue, char id);
+std::string queue_string(std::queue<Process> q);
 
 
 #endif //PROJECT_PROCESS_H

@@ -10,7 +10,9 @@ Process::Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::ve
 	this->id = id;
 	this->arrival_time = arrival_time;
 	this->num_cpu_bursts = cpu_bursts.size();
+	this->total_cpu_burst_time = 0;
 	for(int a = 0; a < num_cpu_bursts; a++) {
+		this->total_cpu_burst_time += cpu_bursts[a];
 		this->cpu_burst_times.push_back(cpu_bursts[a]);
 	}
 	for(int b = 0; b < io_bursts.size(); b++) {
@@ -64,4 +66,13 @@ bool contains(const std::vector<Process>& io_queue, char id) {
 	return false;
 }
 
-
+std::string queue_string(std::queue<Process> q) {
+	std::string result = "[Q ";
+	if(q.empty()) return result + "empty]";
+	while(!q.empty()) {
+		result += q.front().get_id();
+		q.pop();
+	}
+	result += "]";
+	return result;
+}
