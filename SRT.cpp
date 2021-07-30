@@ -3,7 +3,6 @@
 //
 
 #include "SRT.h"
-#define op >
 
 bool SRT::compare(const Process& a, const Process& b) {
     if (a.get_cpu_burst_time() == b.get_cpu_burst_time()){

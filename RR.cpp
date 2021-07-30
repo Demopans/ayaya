@@ -1,14 +1,9 @@
 //
 // Created by demo on 7/19/2021.
+// Highly suggest using an IDE for code review
 //
 
 #include "RR.h"
-bool cc(Process a, Process b) {
-    if (a.get_io_burst_time() == b.get_io_burst_time()) {
-        a.get_id() op b.get_id();
-    }
-    return a.get_io_burst_time() op b.get_io_burst_time();
-};
 
 void RR::process(const std::vector<Process> &pids) {
     struct co {
@@ -25,15 +20,23 @@ void RR::process(const std::vector<Process> &pids) {
     std::queue<Process> readyQ;
     for (const auto &item : pids) {readyQ.push(item);}
 
-    std::vector<Process> IOHell;
+    IOSystem IOHell;
 
 
-    int premptiontimer = 0;
+    int premptiontimer = contextSwitchDur/2;
     int time = 0;
     int timer = limit;
 
-    while (!ids.empty()) {
+    cpu.kickProcess();
+
+    while (!ids.empty()) {//starts on empty queue
         Process t;
+        if (premptiontimer==0){
+
+        }
+
+
+        /*
         // CPU Burst done?
         if (!cpu.isIdle()&&premptiontimer==0){
             t = cpu.pingProcess();
@@ -77,6 +80,7 @@ void RR::process(const std::vector<Process> &pids) {
         }
         // check if need boot
         time++;timer--;
+         */
     }
 
 

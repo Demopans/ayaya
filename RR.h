@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "Algorithm.h"
+#include "IOSystem.h"
 
 class RR : private Algorithm {
 public:
