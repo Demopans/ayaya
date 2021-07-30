@@ -16,6 +16,7 @@
 #include "SRT.h"
 #include "Rand48.h"
 
+
 double next_exp(double lambda, int upper_bound);
 
 std::string ids = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -41,6 +42,7 @@ void initialize_processes(int num_processes, int seed, double lambda, double upp
         processes.push_back(init_process);
     }
 }
+
 
 void inputHandler(int argc, char *argv[], int &pCount, int &seed, double &lambda, double &tail, int &context_switch,
                   double &alpha, int &time_slice, bool &rr_queue_push_end) {
@@ -90,11 +92,15 @@ void inputHandler(int argc, char *argv[], int &pCount, int &seed, double &lambda
     rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
 }
 
+
 int main(int argc, char *argv[]) {
     int pCount;int seed;double lambda;double tail;int context_switch;double alpha;int time_slice;bool rr_queue_push_end;
     inputHandler(argc, argv, pCount, seed, lambda, tail, context_switch, alpha, time_slice, rr_queue_push_end);
     std::vector<Process> pids;
     initialize_processes(pCount, seed, lambda, tail, pids);
+
+    FCFS(pCount, seed, context_switch/2, lambda, tail);
+
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
