@@ -11,11 +11,23 @@ public:
     CPU() = default;
 
     void loadProcess(Process &p){CurrentProcess = p;}
-    Process &kickProcess();
+    Process kickProcess(){
+        Process t = CurrentProcess;
+        this->CurrentProcess = Process();
+        return t;
+    }
 
-    const Process& pingProcess ();
+    const Process& pingProcess (){
+        return CurrentProcess;
+    }
 
-    bool isIdle();
+    bool isIdle(){
+        return CurrentProcess.get_id()==-1;
+    }
+
+    void subCPUTime(){
+        CurrentProcess.decrement_cpu_burst();
+    }
 private:
     Process CurrentProcess;
 };

@@ -8,13 +8,14 @@
 #include <utility>
 
 #include "Algorithm.h"
+#include "IOSystem.h"
 
 class RR : private Algorithm {
 public:
     void process(const std::vector<Process> &pids);
 
     RR(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, const std::queue<Process> &incomingProcesses,
-       int limit) : Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses), limit(limit) {}
+       int limit, int contextSwitchDur) : Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses, contextSwitchDur), limit(limit) {}
 
 private:
     int limit;

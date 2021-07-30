@@ -9,25 +9,22 @@
 #include "Random.h"
 #include <iostream>
 
-const char id_names[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', \
-                            'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', \
-                            'X', 'Y', 'Z'};
-
 class Process {
 
     private:
-        char id;
-        int cpu_burst_time;
-        int io_burst_time;
-        int arrival_time;
-        int num_cpu_bursts;
-        int remaining_bursts;
+        char id = -1;
+        int cpu_burst_time{};
+        int io_burst_time{};
+        int arrival_time{};
+        int num_cpu_bursts{};
+        int remaining_bursts{};
         std::vector<int> cpu_burst_times;
         std::vector<int> io_burst_times;
         bool empty_process;
 
     public:
         Process() { empty_process = true; }
+
         Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::vector<int> io_bursts);
         void change_cpu_burst(int new_time) {cpu_burst_time = new_time; }
         void decrement_cpu_burst() { cpu_burst_time--; }
@@ -49,6 +46,5 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
                           std::vector<Process>& processes);
 void erase_process(std::vector<Process>& processes, char id);
 bool contains(const std::vector<Process>& io_queue, char id);
-
 
 #endif //PROJECT_PROCESS_H

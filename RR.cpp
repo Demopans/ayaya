@@ -1,5 +1,6 @@
 //
 // Created by demo on 7/19/2021.
+// Highly suggest using an IDE for code review
 //
 
 #include "RR.h"
@@ -13,36 +14,57 @@ void RR::process(const std::vector<Process> &pids) {
             return a.get_arrival_time() op b.get_arrival_time();
         };
     };
-    std::priority_queue<Process, std::vector<Process>, co> ids;
-    for (const auto &pid : pids) { ids.push(pid); }
+    std::priority_queue<Process, std::vector<Process>, co> incomingProcs;
+    for (const auto &pid : pids) { incomingProcs.push(pid); }
 
-    std::queue<Process> rrQ;
-    for (const auto &item : pids) {
-        rrQ.push(item);
-    }
+    std::queue<Process> readyQ;
+    for (const auto &item : pids) { readyQ.push(item); }
 
-    int countdowm = 0;
-    int counter = limit;
-    while (!ids.empty()) {
-        // CPU Burst done?
-        if (!cpu.isIdle()) {
+    IOSystem IOHell;
 
+
+    int premptiontimer = contextSwitchDur / 2;
+    int time = 0;
+    int timer = limit;
+
+    cpu.kickProcess();
+
+    while (!incomingProcs.empty()) {//starts on empty queue
+        Process t;
+        if (premptiontimer == 0) {//cpu
+            //cpu burst finished
+            if (cpu.pingProcess().get_cpu_burst_time()==0){
+                t = cpu.kickProcess();
+                if (t.get_remaining_bursts()>0){
+                    //to io
+                    IOHell.pushIntoIO(t);
+                }
+                else{
+                    // print finished
+                }
+                premptiontimer=contextSwitchDur;
+            }
         }
-        //io hell
 
-
-        //recieve process if cpu is idle
-        if (cpu.isIdle()) {
-            Process tmp = ids.top();
-            ids.pop();
-            cpu.loadProcess(tmp);
-            tick++;
-            continue;
+        //run io checks
+        if ((t = IOHell.pingTop()).get_io_burst_time()==0){
+            if (t.get_remaining_bursts()>0){
+                IOHell.pop();
+                readyQ.push(t);
+            }
+            else{
+                IOHell.pop();
+            }
         }
-        // check if need boot
 
+        //check for arrivals
+        if ((t=incomingProcs.top()).get_arrival_time()==time){
+            incomingProcs.pop();
+            readyQ.push(t);
+        }
 
-
+        premptiontimer = premptiontimer > 0 ? --premptiontimer : premptiontimer;
+        time++;
     }
 
 

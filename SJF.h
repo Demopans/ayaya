@@ -32,8 +32,8 @@ private:
 
 public:
     SJF(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, const std::queue<Process> &incomingProcesses,
-        std::priority_queue<Process, std::vector<Process>, com> queue) :
-            Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses), queue(std::move(queue)) {}
+        std::priority_queue<Process, std::vector<Process>, com> queue, int contextSwitchDur) :
+            Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses, contextSwitchDur), queue(std::move(queue)) {}
 
     void process(const std::vector<Process> &pids);
 

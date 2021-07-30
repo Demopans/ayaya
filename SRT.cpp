@@ -3,12 +3,11 @@
 //
 
 #include "SRT.h"
-#define op >
 
-bool SRT::compare(Process a, Process b) {
-    if (a.get_cup_burst_time() == b.get_cup_burst_time()){
+bool SRT::compare(const Process& a, const Process& b) {
+    if (a.get_cpu_burst_time() == b.get_cpu_burst_time()){
         return a.get_arrival_time() op b.get_arrival_time();
     }
-    return a.get_cup_burst_time() op b.get_cup_burst_time();
+    return a.get_cpu_burst_time() op b.get_cpu_burst_time();
 }
 
