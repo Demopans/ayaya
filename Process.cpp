@@ -76,3 +76,17 @@ std::string queue_string(std::queue<Process> q) {
 	result += "]";
 	return result;
 }
+
+void write_output(const std::string& algo_name, double avg_cpu_burst, double avg_wait_time, \
+                  double avg_turnaround_time, int num_context_switches, int num_preemptions, \
+                  double cpu_utilization) {
+	std::ofstream simfile;
+	simfile.open("simout.txt");
+	simfile << "Algorithm " + algo_name << std::endl;
+	simfile << "-- average CPU burst time: " << std::fixed << std::setprecision(3) << avg_cpu_burst << " ms" << std::endl;
+	simfile << "-- average wait time: " << std::fixed << std::setprecision(3) << avg_wait_time << " ms" << std::endl;
+	simfile << "-- average turnaround time: " << std::fixed << std::setprecision(3) << avg_turnaround_time << " ms" << std::endl;
+	simfile << "-- total number of context switches: " << num_context_switches << std::endl;
+	simfile << "-- total number of preemptions: " << num_preemptions << std::endl;
+	simfile << "-- CPU utilization: " << std::fixed << std::setprecision(3) << cpu_utilization << "%" << std::endl;
+}

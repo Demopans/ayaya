@@ -5,11 +5,13 @@
 #ifndef PROJECT_PROCESS_H
 #define PROJECT_PROCESS_H
 
+#include "Random.h"
 #include <vector>
 #include <string>
 #include <queue>
-#include "Random.h"
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
 const char id_names[26] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', \
                             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', \
@@ -54,6 +56,9 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
 void erase_process(std::vector<Process>& processes, char id);
 bool contains(const std::vector<Process>& io_queue, char id);
 std::string queue_string(std::queue<Process> q);
+void write_output(const std::string& algo_name, double avg_cpu_burst, double avg_wait_time, \
+                  double avg_turnaround_time, int num_context_switches, int num_preemptions, \
+                  double cpu_utilization);
 
 
 #endif //PROJECT_PROCESS_H
