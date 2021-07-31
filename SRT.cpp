@@ -45,6 +45,42 @@ void SRT::process(const std::vector<Process>& pids, double lambda, double alpha)
     int premptiontimer = contextSwitchDur / 2;
     int time = 0;
 
+    while (!incomingProcs.empty() || !IOHell.IOQueue.empty() || !readyQ.empty() || !cpu.isIdle()) {//starts on empty queue
+        Process t;
+        if (premptiontimer == 0) {//cpu
+            //cpu burst finished
+            if (cpu.pingProcess().get_cpu_burst_time()==0){
+                t = cpu.kickProcess();
+                if (t.get_remaining_bursts()>0){
+                    //to io
+                    IOHell.pushIntoIO(t);
+                }
+                else{
+                    // print finished
+                }
+                premptiontimer=contextSwitchDur;
+            }
+        }
 
+        //run io checks
+        if ((t = IOHell.pingTop()).get_io_burst_time()==0){
+            if (t.get_remaining_bursts()>0){
+                IOHell.pop();
+                readyQ.push(t);
+            }
+            else{
+                IOHell.pop();
+            }
+        }
+
+        //check for arrivals
+        if ((t=incomingProcs.top()).get_arrival_time()==time){
+            incomingProcs.pop();
+            readyQ.push(t);
+        }
+
+        premptiontimer = premptiontimer > 0 ? --premptiontimer : premptiontimer;
+        time++;
+    }
 }
 
