@@ -13,6 +13,7 @@
 #include "IOSystem.h"
 
 #define op <
+#define L 999
 
 /*
  * Singleton would be a good idea, but no time for that
