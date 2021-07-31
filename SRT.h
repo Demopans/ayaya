@@ -20,9 +20,9 @@ private:
     struct com{
         bool operator()(const Process& a, const Process& b){return compare(a,b);}
     };
-    std::priority_queue<Process,std::vector<Process>,com> queue;
+
 public:
-    void process();
+    void process(const std::vector<Process>& pids, double lambda, double alpha);
 };
 
 
