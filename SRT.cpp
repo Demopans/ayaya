@@ -57,6 +57,7 @@ void SRT::process(const std::vector<Process>& pids, double lambda, double alpha)
                 }
                 else{
                     // print finished
+
                 }
                 premptiontimer=contextSwitchDur;
             }
@@ -77,10 +78,14 @@ void SRT::process(const std::vector<Process>& pids, double lambda, double alpha)
         if ((t=incomingProcs.top()).get_arrival_time()==time){
             incomingProcs.pop();
             // compare aganist cpu
-            t = cpu.pingProcess();
-
-
-            readyQ.push(t);
+            if (t.get_cpu_burst_time() < cpu.pingProcess().get_cpu_burst_time()){
+                premptiontimer = contextSwitchDur;
+                readyQ.push(cpu.kickProcess());
+                cpu.loadProcess(t);
+            }
+            else{
+                readyQ.push(t);
+            }
         }
 
         premptiontimer = premptiontimer > 0 ? --premptiontimer : premptiontimer;
