@@ -76,6 +76,10 @@ void SRT::process(const std::vector<Process>& pids, double lambda, double alpha)
         //check for arrivals
         if ((t=incomingProcs.top()).get_arrival_time()==time){
             incomingProcs.pop();
+            // compare aganist cpu
+            t = cpu.pingProcess();
+
+
             readyQ.push(t);
         }
 
