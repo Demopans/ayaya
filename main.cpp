@@ -62,6 +62,9 @@ int main(int argc, char *argv[]) {
 
 
     FCFS(pCount, seed, context_switch/2, lambda, tail);
+    std::cout << std::endl;
+    RR(pCount, seed, context_switch/2, lambda, tail, time_slice);
+    std::cout << std::endl;
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

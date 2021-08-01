@@ -1,7 +1,6 @@
 #include "FCFS.h"
 
 void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound) {
-	std::string output;
 	std::vector<Process> processes;
 	std::vector<Process> io_queue;
 	std::queue<Process> ready_queue;

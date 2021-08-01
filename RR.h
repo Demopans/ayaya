@@ -1,24 +1,13 @@
 //
-// Created by demo on 7/19/2021.
+// Created by Colin on 8/1/2021
 //
 
 #ifndef PROJECT_RR_H
 #define PROJECT_RR_H
 
-#include <utility>
+#include "Process.h"
+void RR(int num_processes, int seed, int context_switch, double lambda, int upper_bound, int timeslice);
 
-#include "Algorithm.h"
-
-class RR : private Algorithm {
-public:
-    void process(const std::vector<Process> &pids);
-
-    RR(int ctContextSwitch, int ctPreemptions, int cpuBurstTimes, const std::queue<Process> &incomingProcesses,
-       int limit) : Algorithm(ctContextSwitch, ctPreemptions, cpuBurstTimes, incomingProcesses), limit(limit) {}
-
-private:
-    int limit;
-};
 
 
 #endif //PROJECT_RR_H
