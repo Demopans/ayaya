@@ -9,14 +9,13 @@ void RR(int num_processes, int seed, int context_switch, double lambda, int uppe
     std::vector<Process> io_queue;
     std::queue<Process> ready_queue;
     Process running_process = Process();
-    initialize_processes(num_processes, seed, lambda, upper_bound, processes);
+    initialize_processes(num_processes, seed, lambda, upper_bound, processes, 0);
     int total_cpu_burst_time = 0;
     int total_num_bursts = 0;
     int wait_time = 0;
     for(int b = 0; b < processes.size(); b++) {
         total_cpu_burst_time += processes[b].get_total_cpu_burst_time();
         total_num_bursts += processes[b].get_num_cpu_bursts();
-
     }
     double avg_cpu_burst = double(total_cpu_burst_time)/total_num_bursts;
     int num_context_switches = 0;

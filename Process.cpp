@@ -4,7 +4,8 @@
 
 #include "Process.h"
 
-Process::Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::vector<int> io_bursts) {
+Process::Process(char id, int arrival_time, const std::vector<int>& cpu_bursts, \
+ 				const std::vector<int>& io_bursts, double alpha, double lambda) {
 	//Initialize all the parameters that can be set 
 	this->empty_process = false;
 	this->id = id;
@@ -20,6 +21,13 @@ Process::Process(char id, int arrival_time, std::vector<int> cpu_bursts, std::ve
 	}
 	this->remaining_bursts = num_cpu_bursts;
 	this->cpu_burst_time = this->cpu_burst_times[0];
+	float t_init = 1/lambda;
+	this->estimated_cpu_burst_times.push_back(std::ceil(t_init));
+	tau = estimated_cpu_burst_times[0];
+	for(int c = 1; c < cpu_burst_times.size(); c++) {
+		int next_tau = std::ceil((alpha * cpu_burst_times[c - 1]) + ((1 - alpha) * estimated_cpu_burst_times[c - 1]) );
+		estimated_cpu_burst_times.push_back(next_tau);
+	}
 }
 
 void Process::next_burst_times() {
@@ -28,8 +36,15 @@ void Process::next_burst_times() {
 	if(remaining_bursts != 0) io_burst_time = io_burst_times[num_cpu_bursts - remaining_bursts - 1];
 }
 
+bool operator<(const Process& a, const Process& b) {
+    if(a.get_tau() == b.get_tau()) {
+        return a.get_id() > b.get_id();
+    }
+    return a.get_tau() > b.get_tau();
+}
+
 void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
- 						  std::vector<Process>& processes) {
+ 						  std::vector<Process>& processes, double alpha) {
 	//Set the seed
 	srand48(seed);
 	//Iterator for each process, starting from process "A"
@@ -45,9 +60,8 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
 				io_bursts.push_back( ((int(next_exp(lambda, upper_bound))) + 1) * 10);
 			}
 		}
-		Process init_process(pid, arrival_time, cpu_bursts, io_bursts);
+		Process init_process(pid, arrival_time, cpu_bursts, io_bursts, alpha, lambda);
 		processes.push_back(init_process);
-
 	}
 }
 
@@ -71,6 +85,17 @@ std::string queue_string(std::queue<Process> q) {
 	if(q.empty()) return result + "empty]";
 	while(!q.empty()) {
 		result += q.front().get_id();
+		q.pop();
+	}
+	result += "]";
+	return result;
+}
+
+std::string pqueue_string(std::priority_queue<Process> q) {
+	std::string result = "[Q ";
+	if(q.empty()) return result + "empty]";
+	while(!q.empty()) {
+		result += q.top().get_id();
 		q.pop();
 	}
 	result += "]";
