@@ -4,12 +4,10 @@
 
 #include "RR.h"
 
-void RR(int num_processes, int seed, int context_switch, double lambda, int upper_bound, int timeslice) {
-    std::vector<Process> processes;
+void RR(std::vector<Process> processes, int context_switch, int timeslice) {
     std::vector<Process> io_queue;
     std::queue<Process> ready_queue;
     Process running_process = Process();
-    initialize_processes(num_processes, seed, lambda, upper_bound, processes, 0);
     int total_cpu_burst_time = 0;
     int total_num_bursts = 0;
     int wait_time = 0;

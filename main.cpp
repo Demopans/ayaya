@@ -59,11 +59,15 @@ int main(int argc, char *argv[]) {
         eighth input argument is rr_add the flag for whether processes are added to the end or beginning of the ready queue */
     int time_slice = std::stoi(argv[7]);
     bool rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
-    FCFS(pCount, seed, context_switch/2, lambda, tail);
+
+    std::vector<Process> processes;
+    initialize_processes(pCount,seed,lambda,tail,processes,alpha);
+
+    FCFS(processes, context_switch / 2);
     std::cout << std::endl;
-    SJF(pCount, seed, context_switch/2, lambda, tail, alpha);
+    SJF(processes, context_switch / 2);
     std::cout << std::endl;
-    RR(pCount, seed, context_switch/2, lambda, tail, time_slice);
+    RR(processes, context_switch/2, time_slice);
     std::cout << std::endl;
     return 0;
 }

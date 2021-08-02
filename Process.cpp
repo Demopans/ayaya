@@ -16,8 +16,8 @@ Process::Process(char id, int arrival_time, const std::vector<int>& cpu_bursts, 
 		this->total_cpu_burst_time += cpu_bursts[a];
 		this->cpu_burst_times.push_back(cpu_bursts[a]);
 	}
-	for(int b = 0; b < io_bursts.size(); b++) {
-		this->io_burst_times.push_back(io_bursts[b]);
+	for(int io_burst : io_bursts) {
+		this->io_burst_times.push_back(io_burst);
 	}
 	this->remaining_bursts = num_cpu_bursts;
 	this->cpu_burst_time = this->cpu_burst_times[0];

@@ -5,20 +5,19 @@
 #include "SJF.h"
 
 
-void SJF(int num_processes, int seed, int context_switch, double lambda, int upper_bound, double alpha) {
-    std::vector<Process> processes;
+void SJF(std::vector<Process> processes, int context_switch) {
     std::vector<Process> io_queue;
     std::priority_queue<Process> ready_queue;
     std::vector<Process> ready_queue_wait;
     Process running_process = Process();
     Process switch_process = Process();
-    initialize_processes(num_processes, seed, lambda, upper_bound, processes, alpha);
+
     int total_cpu_burst_time = 0;
     int total_num_bursts = 0;
     int wait_time = 0;
-    for(int b = 0; b < processes.size(); b++) {
-        total_cpu_burst_time += processes[b].get_total_cpu_burst_time();
-        total_num_bursts += processes[b].get_num_cpu_bursts();
+    for(auto & processe : processes) {
+        total_cpu_burst_time += processe.get_total_cpu_burst_time();
+        total_num_bursts += processe.get_num_cpu_bursts();
 
     }
     double avg_cpu_burst = double(total_cpu_burst_time)/total_num_bursts;
@@ -114,9 +113,9 @@ void SJF(int num_processes, int seed, int context_switch, double lambda, int upp
         
 
         //Run the processes doing I/O in alphabetical order
-        for(int j = 0; j < processes.size(); j++) {
+        for(auto & processe : processes) {
             for(int k = 0; k < io_queue.size(); k++)  {
-                if(io_queue[k].get_id() == processes[j].get_id()) {
+                if(io_queue[k].get_id() == processe.get_id()) {
                     if(io_queue[k].get_io_burst_time() == 0) {
                         ready_queue.push(io_queue[k]);
                         if(t < 1000) {
@@ -135,11 +134,11 @@ void SJF(int num_processes, int seed, int context_switch, double lambda, int upp
         }
 
         //Check for arriving processes
-        for(int i = 0; i < processes.size(); i++) {
-            if(processes[i].get_arrival_time() == t) {
-                ready_queue.push(processes[i]);
+        for(auto & processe : processes) {
+            if(processe.get_arrival_time() == t) {
+                ready_queue.push(processe);
                 std::cout << "time " << t << "ms: ";
-                std::cout << "Process " << processes[i].get_id() << " (tau " << processes[i].get_tau();
+                std::cout << "Process " << processe.get_id() << " (tau " << processe.get_tau();
                 std::cout << "ms) arrived; added to ready queue ";
                 std::cout << pqueue_string(ready_queue) << std::endl;
             }
@@ -154,7 +153,7 @@ void SJF(int num_processes, int seed, int context_switch, double lambda, int upp
         //Increase the wait time for every process in the ready queue, not 
         //including the process doing a context switch
         if(running_process.is_empty()) {
-            if(ready_queue.size() > 0) {
+            if(!ready_queue.empty()) {
                 wait_time += (ready_queue.size());
             }
         }

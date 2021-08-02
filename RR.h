@@ -6,7 +6,7 @@
 #define PROJECT_RR_H
 
 #include "Process.h"
-void RR(int num_processes, int seed, int context_switch, double lambda, int upper_bound, int timeslice);
+void RR(std::vector<Process> processes, int context_switch, int timeslice);
 
 
 
