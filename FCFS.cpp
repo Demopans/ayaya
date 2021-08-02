@@ -1,13 +1,15 @@
 #include "FCFS.h"
 
-void FCFS(std::vector<Process> processes, int context_switch) {
+void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound) {
+	std::vector<Process> processes;
 	std::vector<Process> io_queue;
 	std::queue<Process> ready_queue;
 	Process running_process = Process();
+	initialize_processes(num_processes, seed, lambda, upper_bound, processes, 0);
 	int total_cpu_burst_time = 0;
 	int total_num_bursts = 0;
 	int wait_time = 0;
-	for(int b = 0; b < processes.size(); b++) {
+	for(int b = 0; b < int(processes.size()); b++) {
 		total_cpu_burst_time += processes[b].get_total_cpu_burst_time();
 		total_num_bursts += processes[b].get_num_cpu_bursts();
 	}
@@ -88,8 +90,8 @@ void FCFS(std::vector<Process> processes, int context_switch) {
 		
 
 		//Run the processes doing I/O in alphabetical order
-		for(int j = 0; j < processes.size(); j++) {
-			for(int k = 0; k < io_queue.size(); k++)  {
+		for(int j = 0; j < int(processes.size()); j++) {
+			for(int k = 0; k < int(io_queue.size()); k++)  {
 				if(io_queue[k].get_id() == processes[j].get_id()) {
 					if(io_queue[k].get_io_burst_time() == 0) {
 						ready_queue.push(io_queue[k]);
@@ -108,12 +110,14 @@ void FCFS(std::vector<Process> processes, int context_switch) {
 		}
 
 		//Check for arriving processes
-		for(int i = 0; i < processes.size(); i++) {
+		for(int i = 0; i < int(processes.size()); i++) {
 			if(processes[i].get_arrival_time() == t) {
 				ready_queue.push(processes[i]);
-				std::cout << "time " << t << "ms: ";
-				std::cout << "Process " << processes[i].get_id() << " arrived; added to ready queue ";
-				std::cout << queue_string(ready_queue) << std::endl;
+				if(t < 1000) {
+					std::cout << "time " << t << "ms: ";
+					std::cout << "Process " << processes[i].get_id() << " arrived; added to ready queue ";
+					std::cout << queue_string(ready_queue) << std::endl;
+				}
 			}
 		}
 		if(processes.empty()) {

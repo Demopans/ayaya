@@ -7,6 +7,6 @@
 
 #include "Process.h"
 
-void SJF(std::vector<Process> processes, int context_switch);
+void SJF(int num_processes, int seed, int context_switch, double lambda, int upper_bound, double alpha);
 
 #endif //PROJECT_SJF_H

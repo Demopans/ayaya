@@ -16,15 +16,17 @@ Process::Process(char id, int arrival_time, const std::vector<int>& cpu_bursts, 
 		this->total_cpu_burst_time += cpu_bursts[a];
 		this->cpu_burst_times.push_back(cpu_bursts[a]);
 	}
-	for(int io_burst : io_bursts) {
-		this->io_burst_times.push_back(io_burst);
+	for(int b = 0; b < int(io_bursts.size()); b++) {
+		this->io_burst_times.push_back(io_bursts[b]);
 	}
 	this->remaining_bursts = num_cpu_bursts;
 	this->cpu_burst_time = this->cpu_burst_times[0];
+	this->original_burst_time = cpu_burst_time;
 	float t_init = 1/lambda;
 	this->estimated_cpu_burst_times.push_back(std::ceil(t_init));
 	tau = estimated_cpu_burst_times[0];
-	for(int c = 1; c < cpu_burst_times.size(); c++) {
+	remaining_tau = tau;
+	for(int c = 1; c < int(cpu_burst_times.size()); c++) {
 		int next_tau = std::ceil((alpha * cpu_burst_times[c - 1]) + ((1 - alpha) * estimated_cpu_burst_times[c - 1]) );
 		estimated_cpu_burst_times.push_back(next_tau);
 	}
@@ -33,14 +35,15 @@ Process::Process(char id, int arrival_time, const std::vector<int>& cpu_bursts, 
 void Process::next_burst_times() {
 	remaining_bursts--;
 	cpu_burst_time = cpu_burst_times[num_cpu_bursts - remaining_bursts];
+	original_burst_time = cpu_burst_time;
 	if(remaining_bursts != 0) io_burst_time = io_burst_times[num_cpu_bursts - remaining_bursts - 1];
 }
 
 bool operator<(const Process& a, const Process& b) {
-    if(a.get_tau() == b.get_tau()) {
+    if(a.get_remaining_tau() == b.get_remaining_tau()) {
         return a.get_id() > b.get_id();
     }
-    return a.get_tau() > b.get_tau();
+    return a.get_remaining_tau() > b.get_remaining_tau();
 }
 
 void initialize_processes(int num_processes, int seed, double lambda, int upper_bound, \
@@ -66,7 +69,7 @@ void initialize_processes(int num_processes, int seed, double lambda, int upper_
 }
 
 void erase_process(std::vector<Process>& processes, char id) {
-	for(int i = 0; i < processes.size(); i++) {
+	for(int i = 0; i < int(processes.size()); i++) {
 		if(processes[i].get_id() == id) {
 			processes.erase(processes.begin() + i);
 		}
@@ -74,7 +77,7 @@ void erase_process(std::vector<Process>& processes, char id) {
 }
 
 bool contains(const std::vector<Process>& io_queue, char id) {
-	for(int i = 0; i < io_queue.size(); i++) {
+	for(int i = 0; i < int(io_queue.size()); i++) {
 		if(io_queue[i].get_id() == id) return true;
 	}
 	return false;
@@ -115,4 +118,5 @@ void write_output(const std::string& algo_name, double avg_cpu_burst, double avg
 	simfile << "-- total number of context switches: " << num_context_switches << std::endl;
 	simfile << "-- total number of preemptions: " << num_preemptions << std::endl;
 	simfile << "-- CPU utilization: " << std::fixed << std::setprecision(3) << cpu_utilization << "%" << std::endl;
+	if(algo_name == "RR") simfile.close();
 }

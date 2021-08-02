@@ -1,21 +1,9 @@
-/**
- * Special colorful (if you are using an IDE) Comments for the Betterment of Society and Paul's Ass
- *
- *
- */
-
-
-#include <iostream>
-#include <algorithm>
-
-#include "Algorithm.h"
+#include "Random.h"
 #include "Process.h"
-#include "RR.h"
+#include "FCFS.h"
 #include "SJF.h"
 #include "SRT.h"
-#include "Rand48.h"
-#include "Random.h"
-#include "FCFS.h"
+#include "RR.h"
 
 int main(int argc, char *argv[]) {
     if (argc!=8){// errot handling
@@ -23,10 +11,6 @@ int main(int argc, char *argv[]) {
         std::cerr << errr;
         return EXIT_FAILURE;
     }
-
-    /*  first input argument is the number of processes to simulate
-        Process IDs are A->Z, so 26 at most */
-    std::string ids = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int pCount = std::stoi(argv[1]);
     if (pCount > 26){std::cerr << "too many processes\n.";exit(EXIT_FAILURE);}
 
@@ -34,7 +18,6 @@ int main(int argc, char *argv[]) {
         use srand48() before each scheduling algorithm
         use drand48() obtain the next value in range[0.0, 1.0) */
     int seed = std::stoi(argv[2]);
-    //srand48(seed);
 
     /*  third input argument is the lambda for calculating an exponential distribution of interarrival times
         fourth input argument is the upper bound for exponential distribution numbers
@@ -58,16 +41,25 @@ int main(int argc, char *argv[]) {
     /*  seventh input argument is the t_slice for time slice in RR in milliseconds
         eighth input argument is rr_add the flag for whether processes are added to the end or beginning of the ready queue */
     int time_slice = std::stoi(argv[7]);
-    bool rr_queue_push_end = !(argc >= 9 && std::string(argv[8]) == "BEGINNING" == 0);
-
-    std::vector<Process> processes;
-    initialize_processes(pCount,seed,lambda,tail,processes,alpha);
-
-    FCFS(processes, context_switch / 2);
+    std::vector<Process> init_processes;
+    initialize_processes(pCount, seed, lambda, tail, init_processes, alpha);
+    for(int m = 0; m < pCount; m++) {
+        std::cout << "Process " << init_processes[m].get_id() << " (arrival time ";
+        std::cout << init_processes[m].get_arrival_time() << " ms) ";
+        std::cout << init_processes[m].get_num_cpu_bursts();
+        if(init_processes[m].get_num_cpu_bursts() != 1)
+            std::cout << " CPU bursts (tau ";
+        else
+            std::cout << " CPU burst (tau ";
+        std::cout << init_processes[m].get_tau() << "ms)" << std::endl;
+    }
     std::cout << std::endl;
-    SJF(processes, context_switch / 2);
+    FCFS(pCount, seed, context_switch/2, lambda, tail);
     std::cout << std::endl;
-    RR(processes, context_switch/2, time_slice);
+    SJF(pCount, seed, context_switch/2, lambda, tail, alpha);
     std::cout << std::endl;
+    SRT(pCount, seed, context_switch/2, lambda, tail, alpha);
+    std::cout << std::endl;
+    RR(pCount, seed, context_switch/2, lambda, tail, time_slice);
     return 0;
 }

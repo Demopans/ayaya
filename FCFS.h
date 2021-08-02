@@ -1,3 +1,3 @@
 #include "Process.h"
 
-void FCFS(std::vector<Process> processes, int context_switch);
+void FCFS(int num_processes, int seed, int context_switch, double lambda, int upper_bound);
