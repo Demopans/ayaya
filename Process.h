@@ -22,6 +22,7 @@ class Process {
     private:
         char id;
         int cpu_burst_time;
+        int original_burst_time;
         int total_cpu_burst_time;
         int io_burst_time;
         int arrival_time;
@@ -32,26 +33,30 @@ class Process {
         std::vector<int> io_burst_times;
         bool empty_process;
         int tau;
+        int remaining_tau;
 
     public:
         Process() { empty_process = true; }
         Process(char id, int arrival_time, const std::vector<int>& cpu_bursts, \
                 const std::vector<int>& io_bursts, double alpha, double lambda);
-        void change_cpu_burst(int new_time) {cpu_burst_time = new_time; }
         void decrement_cpu_burst() { cpu_burst_time--; }
-        void change_io_burst();
         void decrement_io_burst() { io_burst_time--; }
+        void increment_cpu_burst() { cpu_burst_time++; }
+        void decrement_tau() { remaining_tau--; }
+        void increment_tau() { remaining_tau++; }
         char get_id() const { return id; }
+        int get_original_time() const { return original_burst_time; }
         int get_cpu_burst_time() const { return cpu_burst_time; }
         int get_total_cpu_burst_time() const { return total_cpu_burst_time; }
         int get_io_burst_time() const { return io_burst_time; }
         int get_arrival_time() const { return arrival_time; }
         int get_num_cpu_bursts() const { return num_cpu_bursts; }
         void next_burst_times();
-        void next_tau() { tau = estimated_cpu_burst_times[num_cpu_bursts - remaining_bursts]; }
+        void next_tau() { tau = estimated_cpu_burst_times[num_cpu_bursts - remaining_bursts]; remaining_tau = tau; }
         int get_remaining_bursts() const { return remaining_bursts; }
         bool is_empty() const { return empty_process; }
         int get_tau() const { return tau; }
+        int get_remaining_tau() const { return remaining_tau; }
         std::vector<int> get_cpu_burst_times() { return cpu_burst_times; }
         std::vector<int> get_io_burst_times() { return io_burst_times; }
 };

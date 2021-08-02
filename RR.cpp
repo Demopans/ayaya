@@ -13,7 +13,7 @@ void RR(int num_processes, int seed, int context_switch, double lambda, int uppe
     int total_cpu_burst_time = 0;
     int total_num_bursts = 0;
     int wait_time = 0;
-    for(int b = 0; b < processes.size(); b++) {
+    for(int b = 0; b < int(processes.size()); b++) {
         total_cpu_burst_time += processes[b].get_total_cpu_burst_time();
         total_num_bursts += processes[b].get_num_cpu_bursts();
     }
@@ -115,8 +115,14 @@ void RR(int num_processes, int seed, int context_switch, double lambda, int uppe
                     t_cs = context_switch;
                     if(t < 1000) {
                         std::cout << "time " << t << "ms: ";
-                        std::cout << "Process " <<  running_process.get_id() << " started using ";
-                        std::cout << "the CPU for " << running_process.get_cpu_burst_time();
+                        std::cout << "Process " <<  running_process.get_id() << " started using the CPU for ";
+                        if(running_process.get_cpu_burst_time() < running_process.get_original_time()) {
+                            std::cout << "remaining " << running_process.get_cpu_burst_time();
+                            std::cout << "ms of " << running_process.get_original_time();
+                        }
+                        else {
+                            std::cout << running_process.get_cpu_burst_time();
+                        }
                         std::cout << "ms burst " << queue_string(ready_queue) << std::endl; 
                     }
                     running_process.decrement_cpu_burst();
@@ -128,8 +134,8 @@ void RR(int num_processes, int seed, int context_switch, double lambda, int uppe
         
 
         //Run the processes doing I/O in alphabetical order
-        for(int j = 0; j < processes.size(); j++) {
-            for(int k = 0; k < io_queue.size(); k++)  {
+        for(int j = 0; j < int(processes.size()); j++) {
+            for(int k = 0; k < int(io_queue.size()); k++)  {
                 if(io_queue[k].get_id() == processes[j].get_id()) {
                     if(io_queue[k].get_io_burst_time() == 0) {
                         ready_queue.push(io_queue[k]);
@@ -148,12 +154,14 @@ void RR(int num_processes, int seed, int context_switch, double lambda, int uppe
         }
 
         //Check for arriving processes
-        for(int i = 0; i < processes.size(); i++) {
+        for(int i = 0; i < int(processes.size()); i++) {
             if(processes[i].get_arrival_time() == t) {
                 ready_queue.push(processes[i]);
-                std::cout << "time " << t << "ms: ";
-                std::cout << "Process " << processes[i].get_id() << " arrived; added to ready queue ";
-                std::cout << queue_string(ready_queue) << std::endl;
+                if(t < 1000) {
+                    std::cout << "time " << t << "ms: ";
+                    std::cout << "Process " << processes[i].get_id() << " arrived; added to ready queue ";
+                    std::cout << queue_string(ready_queue) << std::endl;
+                }
             }
         }
         if(processes.empty()) {
